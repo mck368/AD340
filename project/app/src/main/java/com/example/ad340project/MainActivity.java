@@ -60,9 +60,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ArrayAdapter adapter = new ArrayAdapter<Object>(this, R.layout.activity_movie_data, movies);
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.activity_movie_data, movies[0]);
 
-        ListView listView = (ListView) findViewById(R.id.mobile_list);
+        ListView listView = findViewById(R.id.movie_list);
         listView.setAdapter(adapter);
 
         Button button2 = findViewById(R.id.toastTwo);
