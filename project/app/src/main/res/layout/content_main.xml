@@ -44,14 +44,18 @@
         app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="48dp"
         android:layout_marginTop="152dp"
         app:layout_constraintTop_toTopOf="parent" android:inputType="text"/>
+
     <Button
-        android:text="1"
+        android:id="@+id/toastOne"
         android:layout_width="109dp"
         android:layout_height="58dp"
-        android:id="@+id/toastOne"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="280dp"
+        android:onClick="foodList"
+        android:text="1"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="48dp" android:layout_marginStart="48dp"
-        android:layout_marginTop="280dp" app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
     <Button
         android:text="4"
         android:layout_width="109dp"
