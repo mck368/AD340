@@ -6,10 +6,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
-
+import com.squareup.picasso.Picasso;
 
 public class MovieList extends AppCompatActivity {
 
@@ -71,15 +71,17 @@ public class MovieList extends AppCompatActivity {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.content_movie_list, null);
-            //ImageView imageView = (ImageView) view.findViewById(R.id.movie_image);
+            ImageView imageView_movie = (ImageView) view.findViewById(R.id.imageView_movie);
             TextView textView_title = (TextView) view.findViewById(R.id.textView_title);
             TextView textView_year = (TextView) view.findViewById(R.id.textView_year);
 
             textView_title.setText(movies[i][0]);
             textView_year.setText(movies[i][1]);
 
-            // String url = getItem(i);
-            //Picasso.with(this).load(url).into(imageView);
+            Picasso p = Picasso.get();
+            p.setIndicatorsEnabled(true);
+            p.setLoggingEnabled(true);
+            p.load(movies[i][3]).into(imageView_movie);
 
             return view;
         }
