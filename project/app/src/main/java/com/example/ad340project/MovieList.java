@@ -1,19 +1,15 @@
 package com.example.ad340project;
-
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
 
 public class MovieList extends AppCompatActivity {
 
@@ -45,25 +41,47 @@ public class MovieList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_list);
-        Toolbar toolbar = findViewById(R.id.toolbar2);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
 
-        HashMap<String, String> mMap = new HashMap<>();
-        List<String> listZ = new ArrayList<>();
-        for (int i = 0; i < movies.length; i++) {
-            mMap.put("Title", movies[i][0]);
-            mMap.put("Year", movies[i][1]);
-            mMap.put("Image", movies[i][3]);
-            listZ.add(mMap.get("Title"));
-            listZ.add(mMap.get("Year"));
-            listZ.add(mMap.get("Image"));
-        }
-
-        ListAdapter movieList = new ArrayAdapter(this, android.R.layout.simple_list_item_1, listZ);
-        ListView myList = findViewById(R.id.movie_list);
-        myList.setAdapter(movieList);
+        ListView listView = findViewById(R.id.movieList);
+        CustomAdapter customAdapter = new CustomAdapter();
+        listView.setAdapter(customAdapter);
     }
 
+    public class CustomAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return movies.length;
+        }
+
+        @Override
+        public String getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            view = getLayoutInflater().inflate(R.layout.content_movie_list, null);
+            //ImageView imageView = (ImageView) view.findViewById(R.id.movie_image);
+            TextView textView_title = (TextView) view.findViewById(R.id.textView_title);
+            TextView textView_year = (TextView) view.findViewById(R.id.textView_year);
+
+            textView_title.setText(movies[i][0]);
+            textView_year.setText(movies[i][1]);
+
+            // String url = getItem(i);
+            //Picasso.with(this).load(url).into(imageView);
+
+            return view;
+        }
+    }
 }
