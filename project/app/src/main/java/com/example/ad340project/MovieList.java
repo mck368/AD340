@@ -1,14 +1,17 @@
 package com.example.ad340project;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
 
 public class MovieList extends AppCompatActivity {
@@ -49,6 +52,17 @@ public class MovieList extends AppCompatActivity {
         ListView listView = findViewById(R.id.movieList);
         CustomAdapter customAdapter = new CustomAdapter();
         listView.setAdapter(customAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
+                Intent intent = new Intent(MovieList.this, MovieDetail.class);
+                intent.putExtra("mHeading", movies[i][0]);
+                intent.putExtra("mTitle", movies[i][0]);
+                intent.putExtra("mDescription", movies[i][4]);
+                startActivity(intent);
+            }
+        });
     }
 
     public class CustomAdapter extends BaseAdapter {
