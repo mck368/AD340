@@ -59,6 +59,8 @@ public class MovieList extends AppCompatActivity {
                 Intent intent = new Intent(MovieList.this, MovieDetail.class);
                 intent.putExtra("mHeading", movies[i][0]);
                 intent.putExtra("mTitle", movies[i][0]);
+                intent.putExtra("mYear", movies[i][1]);
+                intent.putExtra("mDir", movies[i][2]);
                 intent.putExtra("mDescription", movies[i][4]);
                 startActivity(intent);
             }

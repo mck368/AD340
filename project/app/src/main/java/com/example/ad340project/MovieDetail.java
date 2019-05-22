@@ -11,6 +11,8 @@ public class MovieDetail extends AppCompatActivity {
 
     TextView textView_desc;
     TextView textView_title;
+    TextView textView_year;
+    TextView textView_dir;
     Toolbar toolbar;
 
     @Override
@@ -24,12 +26,16 @@ public class MovieDetail extends AppCompatActivity {
 
         textView_desc = (TextView) findViewById(R.id.movieDesc);
         textView_title = (TextView) findViewById(R.id.movieTitle);
+        textView_year = (TextView) findViewById(R.id.movieYear);
+        textView_dir = (TextView) findViewById(R.id.movieDir);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             toolbar.setTitle(bundle.getString("mHeading"));
             textView_title.setText(bundle.getString("mTitle"));
             textView_desc.setText(bundle.getString("mDescription"));
+            textView_year.setText(bundle.getString("mYear"));
+            textView_dir.setText(bundle.getString("mDir"));
         }
     }
 }

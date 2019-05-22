@@ -13,11 +13,37 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="88dp"
-        android:layout_marginEnd="87dp"
-        android:layout_marginRight="87dp"
+        android:layout_marginTop="69dp"
+        android:layout_marginEnd="95dp"
+        android:layout_marginRight="95dp"
         android:text="TextView"
         android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/movieYear"
+        android:layout_width="302dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="170dp"
+        android:layout_marginEnd="93dp"
+        android:layout_marginRight="93dp"
+        android:text="TextView"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/movieDir"
+        android:layout_width="302dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="121dp"
+        android:layout_marginEnd="93dp"
+        android:layout_marginRight="93dp"
+        android:text="TextView"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/movieDesc"
@@ -26,9 +52,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="204dp"
-        android:layout_marginEnd="86dp"
-        android:layout_marginRight="86dp"
+        android:layout_marginTop="240dp"
+        android:layout_marginEnd="90dp"
+        android:layout_marginRight="90dp"
         android:text="TextView" />
 
 </RelativeLayout>
