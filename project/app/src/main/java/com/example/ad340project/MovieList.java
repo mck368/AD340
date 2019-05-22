@@ -62,6 +62,7 @@ public class MovieList extends AppCompatActivity {
                 intent.putExtra("mYear", movies[i][1]);
                 intent.putExtra("mDir", movies[i][2]);
                 intent.putExtra("mDescription", movies[i][4]);
+                intent.putExtra("mImg", movies[i][3]);
                 startActivity(intent);
             }
         });

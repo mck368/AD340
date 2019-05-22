@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 
 public class MovieDetail extends AppCompatActivity {
@@ -13,6 +16,7 @@ public class MovieDetail extends AppCompatActivity {
     TextView textView_title;
     TextView textView_year;
     TextView textView_dir;
+    ImageView img_movie;
     Toolbar toolbar;
 
     @Override
@@ -28,6 +32,7 @@ public class MovieDetail extends AppCompatActivity {
         textView_title = (TextView) findViewById(R.id.movieTitle);
         textView_year = (TextView) findViewById(R.id.movieYear);
         textView_dir = (TextView) findViewById(R.id.movieDir);
+        img_movie = (ImageView) findViewById(R.id.img_movie);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -36,6 +41,10 @@ public class MovieDetail extends AppCompatActivity {
             textView_desc.setText(bundle.getString("mDescription"));
             textView_year.setText(bundle.getString("mYear"));
             textView_dir.setText(bundle.getString("mDir"));
+            Picasso p = Picasso.get();
+            p.setIndicatorsEnabled(true);
+            p.setLoggingEnabled(true);
+            p.load(bundle.getString("mImg")).into(img_movie);
         }
     }
 }
