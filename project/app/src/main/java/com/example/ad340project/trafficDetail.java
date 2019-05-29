@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,7 +24,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
-
 
 public class trafficDetail extends AppCompatActivity {
 
@@ -82,19 +82,34 @@ public class trafficDetail extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.d("JSON", "Error: " + error.getMessage());
             }
-        });
+        }));
             queue.add(jsonReq);
     }
 
-    public class CameraListAdapter extends ArrayList<traffic> {
+    public class CameraListAdapter extends BaseAdapter {
 
         private final Context context;
         private ArrayList<traffic> values;
 
         public CameraListAdapter(Context context, ArrayList<traffic> values) {
-            super(context, 0, values);
+            super();
             this.context = context;
             this.values = values;
+        }
+
+        @Override
+        public int getCount() {
+            return values.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
         }
 
         @Override
@@ -105,9 +120,12 @@ public class trafficDetail extends AppCompatActivity {
             ImageView image = rowView.findViewById(R.id.imageView_traffic);
             label.setText(values.get(position).label);
             String imageUrl = values.get(position).image;
-            if(!imageUrl.isEmpty()) {
-                Picasso.get().load(imageUrl.into(image));
-            }
+            /*if(!imageUrl.isEmpty()) {
+                Picasso p = Picasso.get();
+                p.setIndicatorsEnabled(true);
+                p.setLoggingEnabled(true);
+                p.load(imageUrl.into(image));
+            }*/
             return rowView;
         }
 
