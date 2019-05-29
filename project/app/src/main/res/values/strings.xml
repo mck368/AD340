@@ -4,4 +4,5 @@
     <string name="title_activity_movie_data">movie_data</string>
     <string name="title_activity_movie_list">movie_list</string>
     <string name="title_activity_custom_movie_list">custom_movie_list</string>
+    <string name="title_activity_traffic">traffic</string>
 </resources>

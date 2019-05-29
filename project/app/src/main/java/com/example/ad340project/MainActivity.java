@@ -23,10 +23,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        Button button2 = findViewById(R.id.toastTwo);
-        button2.setOnClickListener(new Listener("Bye"));
-
         Button button3 = findViewById(R.id.toastThree);
         button3.setOnClickListener(new Listener("Wow"));
 
@@ -37,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void movieList(View view) {
         Intent strIntent = new Intent(this, MovieList.class);
+        startActivity(strIntent);
+    }
+
+    public void trafficDetail(View view) {
+        Intent strIntent = new Intent(this, trafficDetail.class);
         startActivity(strIntent);
     }
 
