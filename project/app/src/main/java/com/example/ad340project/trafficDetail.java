@@ -92,7 +92,7 @@ public class trafficDetail extends AppCompatActivity {
         private ArrayList<traffic> values;
 
         public CameraListAdapter(Context context, ArrayList<traffic> values) {
-            super();
+            super(context, 0, values);
             this.context = context;
             this.values = values;
         }
@@ -120,15 +120,12 @@ public class trafficDetail extends AppCompatActivity {
             ImageView image = rowView.findViewById(R.id.imageView_traffic);
             label.setText(values.get(position).label);
             String imageUrl = values.get(position).image;
-            /*if(!imageUrl.isEmpty()) {
+            if(!imageUrl.isEmpty()) {
                 Picasso p = Picasso.get();
-                p.setIndicatorsEnabled(true);
-                p.setLoggingEnabled(true);
-                p.load(imageUrl.into(image));
-            }*/
+                p.load(imageUrl).into(image);
+            }
             return rowView;
         }
-
     }
 
     private void checkNetworkConnection() {
