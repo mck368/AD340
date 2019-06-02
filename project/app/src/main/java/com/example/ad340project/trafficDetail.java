@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -86,7 +86,7 @@ public class trafficDetail extends AppCompatActivity {
             queue.add(jsonReq);
     }
 
-    public class CameraListAdapter extends BaseAdapter {
+    public class CameraListAdapter extends ArrayAdapter<traffic> {
 
         private final Context context;
         private ArrayList<traffic> values;
@@ -103,7 +103,7 @@ public class trafficDetail extends AppCompatActivity {
         }
 
         @Override
-        public Object getItem(int position) {
+        public traffic getItem(int position) {
             return null;
         }
 
