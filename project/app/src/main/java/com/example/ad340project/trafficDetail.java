@@ -128,7 +128,7 @@ public class trafficDetail extends AppCompatActivity {
         }
     }
 
-    private void checkNetworkConnection() {
+    public void checkNetworkConnection() {
         ConnectivityManager connMgr =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeInfo = connMgr.getActiveNetworkInfo();
