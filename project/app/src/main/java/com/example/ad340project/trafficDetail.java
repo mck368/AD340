@@ -63,12 +63,12 @@ public class trafficDetail extends AppCompatActivity {
                 try {
                     for (int i = 1; i < response.length(); i++) {
                         JSONObject camera = response.getJSONObject(i);
-                        double[] coords = {camera.getDouble("ypos"), camera.getDouble("xpos")};
                         traffic c = new traffic(
                                 camera.getString("cameralabel"),
                                 camera.getString("ownershipcd"),
                                 camera.getJSONObject("imageurl").getString("url"),
-                                coords
+                                camera.getString("ypos"),
+                                camera.getString("xpos")
                         );
                         cameraData.add(c);
                     }
@@ -117,8 +117,12 @@ public class trafficDetail extends AppCompatActivity {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View rowView = inflater.inflate(R.layout.content_traffic, parent, false);
             TextView label = rowView.findViewById(R.id.textView_label);
+            TextView y = rowView.findViewById(R.id.textView_y);
+            TextView x = rowView.findViewById(R.id.textView_x);
             ImageView image = rowView.findViewById(R.id.imageView_traffic);
             label.setText(values.get(position).label);
+            y.setText(values.get(position).y);
+            x.setText(values.get(position).x);
             String imageUrl = values.get(position).image;
             if(!imageUrl.isEmpty()) {
                 Picasso p = Picasso.get();

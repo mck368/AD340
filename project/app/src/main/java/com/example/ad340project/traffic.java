@@ -5,12 +5,14 @@ public class traffic {
    String label;
    String image;
    String owner;
-   double[] coordinates;
+   String y;
+   String x;
 
-   public traffic(String label, String owner, String image, double[] coordinates) {
+   public traffic(String label, String owner, String image, String y, String x) {
        this.label = label;
        this.owner = owner;
        this.image = image;
-       this.coordinates = coordinates;
+       this.y = y;
+       this.x = x;
    }
 }
