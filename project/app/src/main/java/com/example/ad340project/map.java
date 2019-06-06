@@ -40,6 +40,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -59,29 +60,21 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
     Location currentLocation;
     private static final int REQUEST_CODE = 9;
     private FusedLocationProviderClient client;
-    Button locate;
-    TextView userLocation;
     String dataUrl = "http://brisksoft.us/ad340/traffic_cameras_merged.json";
-    ArrayList<locationCoordinates> cameraData = new ArrayList<>();
     public static final String TAG = "NETWORK";
     private static boolean wifiConnected = false;
     private static boolean mobileConnected = false;
+    private ArrayList<LatLng> latLngs = new ArrayList<>();
+    private ArrayList<String> label = new ArrayList<>();
+    private ArrayList<String> owner = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-
+        loadCameraData(dataUrl);
         client = LocationServices.getFusedLocationProviderClient(this);
         fetchLastLocation();
-
-        /*trafficDetail td = new trafficDetail();
-        td.checkNetworkConnection();
-        if(wifiConnected || mobileConnected) {
-            loadCameraData(dataUrl);
-        } else {
-            //show toast
-        }*/
     }
 
     private void fetchLastLocation() {
@@ -108,24 +101,22 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng latLng = new LatLng(47.6733, -122.3426);
-        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here")
-                .snippet("yo")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-        //googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-        googleMap.addMarker(markerOptions);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE:
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    fetchLastLocation();
-                }
-                break;
+        MarkerOptions markCams = new MarkerOptions();
+        for (int i = 0; i < latLngs.size(); i++) {
+            markCams.position(latLngs.get(i));
+            markCams.title(label.get(i));
+            markCams.snippet(owner.get(i));
+            googleMap.addMarker(markCams);
+            googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLngs.get(i)));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngs.get(i), 12));
         }
+
+        LatLng currLocation = new LatLng(47.6733, -122.3426);
+        MarkerOptions markCurr = new MarkerOptions().position(currLocation).title("I am here")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLng(currLocation));
+        //googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currLocation, 9));
+        googleMap.addMarker(markCurr);
     }
 
     public void loadCameraData(String dataUrl) {
@@ -137,11 +128,13 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
                 try {
                     for (int i = 1; i < response.length(); i++) {
                         JSONObject camera = response.getJSONObject(i);
-                        locationCoordinates c = new locationCoordinates(
-                                camera.getDouble("ypos"),
-                                camera.getDouble("xpos")
-                        );
-                        cameraData.add(c);
+                        camera.getDouble("ypos");
+                        camera.getDouble("xpos");
+                        camera.getString("cameralabel");
+                        camera.getString("ownershipcd");
+                        latLngs.add(new LatLng(camera.getDouble("ypos"), camera.getDouble("xpos")));
+                        label.add(camera.getString("cameralabel"));
+                        owner.add(camera.getString("ownershipcd"));
                     }
                 } catch (JSONException e) {
                     Log.d("CAMERAS error", e.getMessage());
@@ -155,4 +148,17 @@ public class map extends FragmentActivity implements OnMapReadyCallback {
         }));
         queue.add(jsonReq);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE:
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    fetchLastLocation();
+                }
+                break;
+        }
+    }
+
+
 }
