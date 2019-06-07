@@ -17,11 +17,11 @@
         android:usesCleartextTraffic="true">
 
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="@string/title_activity_map"/>
+            android:value="@string/google_map_api_key"/>
 
         <activity
             android:name=".map"
-            android:label="@string/title_activity_map"
+            android:label="@string/google_map_api_key"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".trafficDetail"
