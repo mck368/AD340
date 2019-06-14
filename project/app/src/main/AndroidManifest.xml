@@ -15,14 +15,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".team"
+            android:label="@string/title_activity_team"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
-        <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_map_api_key"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_map_api_key" />
 
         <activity
             android:name=".map"
             android:label="@string/google_map_api_key"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".trafficDetail"
             android:label="trafficDetail"

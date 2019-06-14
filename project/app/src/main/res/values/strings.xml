@@ -6,4 +6,10 @@
     <string name="title_activity_custom_movie_list">custom_movie_list</string>
     <string name="title_activity_traffic">traffic</string>
     <string name="google_map_api_key" translatable="false">AIzaSyBGk-BKb7LJ4NaRkQ2kv8NTxP22tbCRJ2o</string>
+    <string name="sign_in">Sign in</string>
+    <string name="hint_email">Email Address</string>
+    <string name="hint_password">Password</string>
+    <string name="name">Name</string>
+    <string name="logout">Map</string>
+    <string name="title_activity_team">team</string>
 </resources>
