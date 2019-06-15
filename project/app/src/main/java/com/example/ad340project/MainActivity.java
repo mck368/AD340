@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button buttonSignIn;
@@ -30,8 +34,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText editTextEmail;
     private EditText editTextPassword;
     private TextView signIn;
-    private ProgressDialog progressDialog;
-    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +42,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        progressDialog = new ProgressDialog(this);
         buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
@@ -63,47 +63,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void registerUser() {
-        String name = editTextName.getText().toString().trim();
-        String email = editTextEmail.getText().toString().trim();
-        String password = editTextPassword.getText().toString().trim();
+    public static boolean isValidPassword(final String password) {
 
-        if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        Pattern pattern;
+        Matcher matcher;
+        final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
+        pattern = Pattern.compile(PASSWORD_PATTERN);
+        matcher = pattern.matcher(password);
 
-        if (TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        progressDialog.setMessage("Registering User...");
-        progressDialog.show();
-
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()) {
-                    //start profile activity here
-                    Toast.makeText(MainActivity.this, "Registered successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(MainActivity.this, "Not Registered", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        return matcher.matches();
 
     }
 
     private void signIn() {
-        // validate name, email, & password fields
-
-        // store name, email, & password values
-
-        // sign into Firebase projecg
         final String name = editTextName.getText().toString().trim();
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
+
+        if(password.length()<8 &&!isValidPassword(password)) {
+            System.out.println("Not Valid password");
+        }else{
+            System.out.println("Valid");
+        }
+
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+        if (email.matches(emailPattern))
+        {
+            Toast.makeText(getApplicationContext(),"valid email address",Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"Invalid email address", Toast.LENGTH_SHORT).show();
+        }
+
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(email, password)
         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
