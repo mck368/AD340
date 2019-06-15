@@ -25,7 +25,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button buttonRegister;
+    private Button buttonSignIn;
     private EditText editTextName;
     private EditText editTextEmail;
     private EditText editTextPassword;
@@ -42,20 +42,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
-        buttonRegister = (Button) findViewById(R.id.buttonRegister);
+        buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         signIn = (TextView) findViewById(R.id.textViewSignIn);
 
-        buttonRegister.setOnClickListener(this);
+        buttonSignIn.setOnClickListener(this);
         signIn.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        if (view == buttonRegister) {
-            registerUser();
+        if (view == buttonSignIn) {
+            signIn();
         }
 
         if (view == signIn) {
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    /*private void signIn() {
+    private void signIn() {
         // validate name, email, & password fields
 
         // store name, email, & password values
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-    }*/
+    }
 
     public void map(View view) {
         Intent strIntent = new Intent(this, map.class);
