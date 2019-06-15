@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
     SharedPreferences myPreferences;
-    private String shredPreFile = "com.abc.lailachavez";
+    private String shredPreFile = "com.example.ad340project";
 
     public static final String Name = "";
     public static final String Email = "email";
