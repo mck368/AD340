@@ -27,13 +27,13 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
-    private Button buttonSignIn;
-    private EditText editTextName;
-    private EditText editTextEmail;
-    private EditText editTextPassword;
-    private TextView signIn;
+    public Button buttonSignIn;
+    public EditText editTextName;
+    public EditText editTextEmail;
+    public EditText editTextPassword;
+    public TextView signIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,19 +48,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         signIn = (TextView) findViewById(R.id.textViewSignIn);
 
-        buttonSignIn.setOnClickListener(this);
-        signIn.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (view == buttonSignIn) {
-            signIn();
-        }
-
-        if (view == signIn) {
-            //open login activity
-        }
+        buttonSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn();
+            }
+        });
     }
 
     public static boolean isValidPassword(final String password) {
@@ -108,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // update profile
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                            .setDisplayName(name)
+                            .setDisplayName("Maria")
                             .build();
 
                     user.updateProfile(profileUpdates)

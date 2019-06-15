@@ -2,7 +2,6 @@ package com.example.ad340project;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -13,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.ad340project.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -42,8 +42,7 @@ public class TeamActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -107,7 +106,7 @@ public class TeamActivity extends AppCompatActivity {
 
     }
 
-    private class UserListAdapter extends ArrayAdapter<User> {
+    public class UserListAdapter extends ArrayAdapter<User> {
         private final Context context;
         private ArrayList<User> values;
 
@@ -121,7 +120,7 @@ public class TeamActivity extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View rowView = inflater.inflate(R.layout.activity_team, parent, false);
+            View rowView = inflater.inflate(R.layout.content_team, parent, false);
             TextView title = rowView.findViewById(R.id.item_title);
             title.setText(values.get(position).username);
             TextView subtitle = rowView.findViewById(R.id.item_subtitle);
