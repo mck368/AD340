@@ -1,15 +1,19 @@
 package com.example.ad340project;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,7 +23,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private Button buttonRegister;
+    private EditText editTextName;
+    private EditText editTextEmail;
+    private EditText editTextPassword;
+    private TextView signIn;
+    private ProgressDialog progressDialog;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,17 +40,70 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button button4 = findViewById(R.id.toastFour);
-        button4.setOnClickListener(new Listener("Cool"));
+        firebaseAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(this);
+        buttonRegister = (Button) findViewById(R.id.buttonRegister);
+        editTextName = (EditText) findViewById(R.id.editTextName);
+        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
+        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        signIn = (TextView) findViewById(R.id.textViewSignIn);
+
+        buttonRegister.setOnClickListener(this);
+        signIn.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == buttonRegister) {
+            registerUser();
+        }
+
+        if (view == signIn) {
+            //open login activity
+        }
+    }
+
+    private void registerUser() {
+        String name = editTextName.getText().toString().trim();
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        progressDialog.setMessage("Registering User...");
+        progressDialog.show();
+
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()) {
+                    //start profile activity here
+                    Toast.makeText(MainActivity.this, "Registered successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Not Registered", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
 
-    private void signIn() {
+    /*private void signIn() {
         // validate name, email, & password fields
 
         // store name, email, & password values
 
         // sign into Firebase projecg
+        final String name = editTextName.getText().toString().trim();
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(email, password)
         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -73,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-    }
+    }*/
 
     public void map(View view) {
         Intent strIntent = new Intent(this, map.class);
@@ -108,16 +173,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public class Listener implements android.view.View.OnClickListener {
 
-        CharSequence c;
-        public Listener(CharSequence c) {
-            this.c = c;
-        }
-
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(getApplicationContext(), c, Toast.LENGTH_SHORT).show();
-        }
-    }
 }

@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".team"
+            android:name=".TeamActivity"
             android:label="@string/title_activity_team"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
