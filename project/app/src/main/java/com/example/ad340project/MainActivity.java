@@ -2,6 +2,7 @@ package com.example.ad340project;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -14,11 +15,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,6 +38,20 @@ public class MainActivity extends AppCompatActivity {
     public EditText editTextPassword;
     public TextView signIn;
 
+    private String lastName;
+    private String lastEmail;
+    private String lastPassword;
+
+    private static final String TAG = "Sign In";
+    private ProgressBar progressBar;
+
+    SharedPreferences myPreferences;
+    private String shredPreFile = "com.abc.lailachavez";
+
+    public static final String Name = "";
+    public static final String Email = "email";
+    public static final String Password = "password";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,12 +59,19 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        myPreferences = getSharedPreferences(shredPreFile, MODE_PRIVATE);
         buttonSignIn = (Button) findViewById(R.id.buttonSignIn);
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         signIn = (TextView) findViewById(R.id.textViewSignIn);
-
+        lastName = myPreferences.getString(Name, "");
+        lastEmail = myPreferences.getString(Email, "");
+        lastPassword = myPreferences.getString(Password, "");
+        editTextName.setText(lastName);
+        editTextEmail.setText(lastEmail);
+        editTextPassword.setText(lastPassword);
+        FirebaseApp.initializeApp(this);
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,30 +81,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static boolean isValidPassword(final String password) {
-
         Pattern pattern;
         Matcher matcher;
         final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
         pattern = Pattern.compile(PASSWORD_PATTERN);
         matcher = pattern.matcher(password);
-
         return matcher.matches();
-
     }
 
     private void signIn() {
-        final String name = editTextName.getText().toString().trim();
+        final String username = editTextName.getText().toString().trim();
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
 
-        if(password.length()<8 &&!isValidPassword(password)) {
-            System.out.println("Not Valid password");
-        }else{
-            System.out.println("Valid");
+        if(!isValidPassword(password)) {
+            Toast.makeText(getApplicationContext(),"valid password",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(),"invalid password",Toast.LENGTH_SHORT).show();
         }
 
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (email.matches(emailPattern))
         {
             Toast.makeText(getApplicationContext(),"valid email address",Toast.LENGTH_SHORT).show();
@@ -89,6 +110,13 @@ public class MainActivity extends AppCompatActivity {
         {
             Toast.makeText(getApplicationContext(),"Invalid email address", Toast.LENGTH_SHORT).show();
         }
+
+
+        SharedPreferences.Editor preferenceEditor = myPreferences.edit();
+        preferenceEditor.putString(Name, username);
+        preferenceEditor.putString(Email, email);
+        preferenceEditor.putString(Password, password);
+        preferenceEditor.commit();
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(email, password)
@@ -101,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                     // update profile
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                            .setDisplayName("Maria")
+                            .setDisplayName(username)
                             .build();
 
                     user.updateProfile(profileUpdates)
